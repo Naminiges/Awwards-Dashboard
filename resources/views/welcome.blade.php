@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -169,4 +169,38 @@
             </div>
         </div>
     </body>
+</html> --}}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-8">Welcome to Awwwards</h1>
+        <div class="grid grid-cols-2 gap-4">
+            <a href="/categories" class="block bg-white border border-gray-200 rounded-lg shadow-md p-6 transition duration-300 hover:bg-gray-50">
+                <h2 class="text-xl font-semibold mb-2">Categories</h2>
+                <p class="text-gray-600">Manage your categories here</p>
+            </a>
+            <a href="/sites" class="block bg-white border border-gray-200 rounded-lg shadow-md p-6 transition duration-300 hover:bg-gray-50">
+                <h2 class="text-xl font-semibold mb-2">Collections</h2>
+                <p class="text-gray-600">Explore sites information</p>
+            </a>
+            <a href="/items" class="block bg-white border border-gray-200 rounded-lg shadow-md p-6 transition duration-300 hover:bg-gray-50">
+                <h2 class="text-xl font-semibold mb-2">Items</h2>
+                <p class="text-gray-600">View and manage items</p>
+            </a>
+            <a href="/users" class="block bg-white border border-gray-200 rounded-lg shadow-md p-6 transition duration-300 hover:bg-gray-50">
+                <h2 class="text-xl font-semibold mb-2">Users Design</h2>
+                <p class="text-gray-600">See user information</p>
+            </a>
+        </div>
+    </div>
+</body>
 </html>

@@ -16,7 +16,9 @@ class UserDesign extends Model
         'username',
         'display_name',
     ];
+    const CREATED_AT = null;
 
+    const UPDATED_AT = null;
     public function collections()
     {
         return $this->hasMany(Collection::class, 'user_id');

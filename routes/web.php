@@ -62,7 +62,14 @@ Route::get('/items/{id}/edit', [ItemController::class, 'edit']);
 Route::put('/items/{id}', [ItemController::class, 'update']);
 Route::delete('/items/{id}', [ItemController::class, 'destroy']);
 //userdesign
-Route::get('/users', [UserDesignController::class, 'users']);
+Route::get('/users', [UserDesignController::class, 'users'])->name('users');
+Route::get('/users/create', [UserDesignController::class, 'create'])->name('users.create');
+Route::post('/users', [UserDesignController::class, 'store'])->name('users.store');
+Route::get('/users/{id}/edit', [UserDesignController::class, 'edit'])->name('users.edit');
+Route::put('/users/{id}', [UserDesignController::class, 'update'])->name('users.update');
+Route::delete('/users/{id}', [UserDesignController::class, 'destroy'])->name('users.destroy');
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

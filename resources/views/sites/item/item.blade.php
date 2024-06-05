@@ -37,7 +37,15 @@
                         <td class="border px-4 py-2">{{ $item->id }}</td>
                         <td class="border px-4 py-2">{{ $item->title }}</td>
                         <td class="border px-4 py-2">{{ $item->collection->name }}</td>
-                        <td class="border px-4 py-2">{{ $item->created_at }}</td>
+                        <td class="border px-4 py-2">
+                            @if (!empty($item->created_at))
+                                @php
+                                    $timestamp = is_numeric($item->created_at) ? $item->created_at : strtotime($item->created_at);
+                                @endphp
+                                {{ \Carbon\Carbon::createFromTimestamp($timestamp)->format('d F Y') }}
+                            @endif
+                        </td>
+                        
                         <td class="border px-4 py-2">{{ $item->type }}</td>
                         <td class="border px-4 py-2">{{ $item->preview_link }}</td>
                         <td class="border px-4 py-2">{{ $item->userDesign->username }}</td>

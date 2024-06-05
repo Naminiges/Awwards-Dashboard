@@ -15,6 +15,10 @@ class Tag extends Model
         'name',
     ];
 
+    const CREATED_AT = null;
+
+    const UPDATED_AT = null;
+
     // Relasi ke Item melalui ItemTag
     public function items()
     {

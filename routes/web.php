@@ -36,9 +36,12 @@ use App\Http\Controllers\AdminController;
 
 // Ubah rute '/' untuk menampilkan admin/index.blade.php
 // Route::get('/', [AdminController::class, 'index'])->name('admin.index');
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [AdminController::class, 'index']);
+
 
 //collection
 Route::get('/sites', [SiteController::class, 'index']);

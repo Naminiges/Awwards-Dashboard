@@ -170,37 +170,74 @@
         </div>
     </body>
 </html> --}}
-
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-8">Welcome to Awwwards</h1>
         <div class="grid grid-cols-2 gap-4">
-            <a href="/categories" class="block bg-white border border-gray-200 rounded-lg shadow-md p-6 transition duration-300 hover:bg-gray-50">
+            <a href="/categories"
+                class="block bg-white border border-gray-200 rounded-lg shadow-md p-6 transition duration-300 hover:bg-gray-50">
                 <h2 class="text-xl font-semibold mb-2">Categories</h2>
                 <p class="text-gray-600">Manage your categories here</p>
             </a>
-            <a href="/sites" class="block bg-white border border-gray-200 rounded-lg shadow-md p-6 transition duration-300 hover:bg-gray-50">
+            <a href="/sites"
+                class="block bg-white border border-gray-200 rounded-lg shadow-md p-6 transition duration-300 hover:bg-gray-50">
                 <h2 class="text-xl font-semibold mb-2">Collections</h2>
                 <p class="text-gray-600">Explore sites information</p>
             </a>
-            <a href="/items" class="block bg-white border border-gray-200 rounded-lg shadow-md p-6 transition duration-300 hover:bg-gray-50">
+            <a href="/items"
+                class="block bg-white border border-gray-200 rounded-lg shadow-md p-6 transition duration-300 hover:bg-gray-50">
                 <h2 class="text-xl font-semibold mb-2">Items</h2>
                 <p class="text-gray-600">View and manage items</p>
             </a>
-            <a href="/users" class="block bg-white border border-gray-200 rounded-lg shadow-md p-6 transition duration-300 hover:bg-gray-50">
+            <a href="/users"
+                class="block bg-white border border-gray-200 rounded-lg shadow-md p-6 transition duration-300 hover:bg-gray-50">
                 <h2 class="text-xl font-semibold mb-2">Users Design</h2>
                 <p class="text-gray-600">See user information</p>
             </a>
         </div>
+        <div class="mt-8">
+            <canvas id="itemsChart" width="400" height="200"></canvas>
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var itemsData = @json($itemsData);
+
+            var ctx = document.getElementById('itemsChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: itemsData.map(item => item.collectionName),
+                    datasets: [{
+                        label: 'Number of Items',
+                        data: itemsData.map(item => item.count),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>

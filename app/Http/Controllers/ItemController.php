@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Collection;
 use App\Models\Item;
+use App\Models\Tag;
 use App\Models\UserDesign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -32,6 +33,7 @@ class ItemController extends Controller
             'type' => 'required|string|max:255',
             'preview_link' => 'nullable|string|max:255',
             'name_id' => 'nullable|string|max:255',
+            'tags' => 'nullable|string', // Tambahkan validasi untuk tags
         ]);
 
         // Buat item baru dengan data yang sudah divalidasi
@@ -44,6 +46,17 @@ class ItemController extends Controller
         $item->created_at = Carbon::now();
         $item->save();
 
+        // Simpan tags
+        if ($request->has('tags')) {
+            $tags = explode(',', $request->input('tags'));
+            $tagIds = [];
+            foreach ($tags as $tagName) {
+                $tag = Tag::firstOrCreate(['name' => trim($tagName)]);
+                $tagIds[] = $tag->id;
+            }
+            $item->tags()->sync($tagIds);
+        }
+
         // Redirect ke halaman index dengan pesan sukses
         return redirect('/items')->with('success', 'Item created successfully.');
     }
@@ -55,7 +68,7 @@ class ItemController extends Controller
         $item = Item::findOrFail($id);
         $collections = Collection::all();
         $userDesigns = UserDesign::all();
-        return view('sites.item.edit', compact('item','collections', 'userDesigns'));
+        return view('sites.item.edit', compact('item', 'collections', 'userDesigns'));
     }
 
 
@@ -68,19 +81,31 @@ class ItemController extends Controller
             'type' => 'required|string|max:255',
             'preview_link' => 'nullable|string|max:255',
             'name_id' => 'nullable|string|max:255',
+            'tags' => 'nullable|string', // Tambahkan validasi untuk tags
         ]);
-    
+
         // Temukan item yang akan diubah
         $item = Item::findOrFail($id);
-    
+
         // Update item dengan data yang sudah divalidasi
         $item->fill($validatedData);
         $item->save();
-    
+
+        // Update tags
+        if ($request->has('tags')) {
+            $tags = explode(',', $request->input('tags'));
+            $tagIds = [];
+            foreach ($tags as $tagName) {
+                $tag = Tag::firstOrCreate(['name' => trim($tagName)]);
+                $tagIds[] = $tag->id;
+            }
+            $item->tags()->sync($tagIds);
+        }
+
         // Redirect ke halaman index dengan pesan sukses
         return redirect('/items')->with('success', 'Item berhasil diperbarui.');
     }
-    
+
 
     public function destroy($id)
     {

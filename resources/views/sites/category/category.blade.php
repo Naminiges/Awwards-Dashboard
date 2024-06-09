@@ -17,6 +17,33 @@
                 class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Add New Collection</a>
         </div>
         <h1 class="text-3xl font-bold mb-4">Categories</h1>
+        @if (session('success'))
+            <div id="alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                role="alert">
+                <strong class="font-bold">Success:</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+                <span id="close-btn" class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer">
+                    <svg class="fill-current h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20">
+                        <title>Close</title>
+                        <path
+                            d="M14.348 14.849a1 1 0 01-1.414 1.414L10 11.414l-2.93 2.93a1 1 0 01-1.415-1.415l2.93-2.93-2.93-2.93a1 1 0 111.415-1.415l2.93 2.93 2.93-2.93a1 1 0 111.415 1.415l-2.93 2.93 2.93 2.93a1 1 0 010 1.414z" />
+                    </svg>
+                </span>
+            </div>
+        @endif
+
+        <script>
+            // Ambil elemen tombol close dan alert
+            const closeBtn = document.getElementById('close-btn');
+            const alertBox = document.getElementById('alert');
+
+            // Tambahkan event listener untuk tombol close
+            closeBtn.addEventListener('click', () => {
+                alertBox.style.display = 'none'; // Sembunyikan alert saat tombol close ditekan
+            });
+        </script>
+
         <table id="myTable" class="w-full bg-white border border-gray-200 rounded-lg shadow-md">
             <thead>
                 <tr class="bg-gray-200">
@@ -29,15 +56,15 @@
             <tbody>
                 @foreach ($categories as $category)
                     <tr class="hover:bg-gray-100">
-                        <td class="border px-4 py-2">{{ $category->id }}</td>
-                        <td class="border px-4 py-2">{{ $category->name }}</td>
-                        <td class="border px-4 py-2">{{ $category->slug }}</td>
+                        <td class="border px-4 py-2">{{ $category['id'] }}</td>
+                        <td class="border px-4 py-2">{{ $category['name'] }}</td>
+                        <td class="border px-4 py-2">{{ $category['slug'] }}</td>
                         <td class="border px-4 py-2 text-center">
-                            <a href="/categories/{{ $category->id }}/edit"
+                            <a href="/categories/{{ $category['id'] }}/edit"
                                 class="text-yellow-500 hover:text-yellow-700 mr-2">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="/categories/{{ $category->id }}" method="POST" class="inline-block">
+                            <form action="/categories/{{ $category['id'] }}" method="POST" class="inline-block">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-500 hover:text-red-700">

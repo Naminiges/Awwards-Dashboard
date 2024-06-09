@@ -21,9 +21,9 @@
                 <label for="collection_id" class="block text-gray-700 font-bold mb-2">Collection:</label>
                 <select name="collection_id" id="collection_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     <option value="">Select Collection</option>
-                    @foreach ($collections as $collection)
-                        <option value="{{ $collection->id }}">{{ $collection->name }}</option>
-                    @endforeach
+                    [@foreach ($collections as $collection)]
+                        <option value="{{ $collection['id'] }}">{{ $collection['name'] }}</option>
+                    [@endforeach]
                 </select>
             </div>
             <div class="mb-4">
@@ -38,9 +38,9 @@
                 <label for="name_id" class="block text-gray-700 font-bold mb-2">User Design Name:</label>
                 <select name="name_id" id="name_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     <option value="">Pilih User Design</option>
-                    @foreach ($userDesigns as $userDesign)
-                        <option value="{{ $userDesign->id }}">{{ $userDesign->username }}</option>
-                    @endforeach
+                    [@foreach ($users as $userDesign)]
+                        <option value="{{ $userDesign['id'] }}">{{ $userDesign['username'] }}</option>
+                    [@endforeach]
                 </select>
             </div>
             <!-- Tambahkan input untuk tags -->

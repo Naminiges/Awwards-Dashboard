@@ -11,12 +11,12 @@
 <body class="bg-gray-100">
     <div class="container mx-auto p-4">
         <h1 class="text-3xl font-bold mb-4">Edit Item</h1>
-        <form action="/items/{{ $item->id }}" method="POST">
+        <form action="/items/{{ $item['id'] }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-4">
                 <label for="title" class="block text-gray-700 font-bold mb-2">Title:</label>
-                <input type="text" name="title" id="title" value="{{ $item->title }}"
+                <input type="text" name="title" id="title" value="{{ $item['title'] }}"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     required>
             </div>
@@ -27,21 +27,22 @@
                     required>
                     <option value="">Select Collection</option>
                     @foreach ($collections as $collection)
-                        <option value="{{ $collection->id }}"
-                            {{ $collection->id == $item->collection_id ? 'selected' : '' }}>{{ $collection->name }}
+                        <option value="{{ $collection['id'] }}"
+                            {{ $collection['id'] == $item['collection_id'] ? 'selected' : '' }}>
+                            {{ $collection['name'] }}
                         </option>
                     @endforeach
                 </select>
             </div>
             <div class="mb-4">
                 <label for="type" class="block text-gray-700 font-bold mb-2">Type:</label>
-                <input type="text" name="type" id="type" value="{{ $item->type }}"
+                <input type="text" name="type" id="type" value="{{ $item['type'] }}"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     required>
             </div>
             <div class="mb-4">
                 <label for="preview_link" class="block text-gray-700 font-bold mb-2">Preview Link:</label>
-                <input type="text" name="preview_link" id="preview_link" value="{{ $item->preview_link }}"
+                <input type="text" name="preview_link" id="preview_link" value="{{ $item['preview_link'] }}"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div class="mb-4">
@@ -49,9 +50,9 @@
                 <select name="name_id" id="name_id"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     <option value="">Pilih User Design</option>
-                    @foreach ($userDesigns as $userDesign)
-                        <option value="{{ $userDesign->id }}"
-                            {{ $userDesign->id == $item->name_id ? 'selected' : '' }}>{{ $userDesign->username }}
+                    @foreach ($users as $userDesign)
+                        <option value="{{ $userDesign['id'] }}"
+                            {{ $userDesign['id'] == $item['name_id'] ? 'selected' : '' }}>{{ $userDesign['username'] }}
                         </option>
                     @endforeach
                 </select>
@@ -59,7 +60,7 @@
             <!-- Tambahkan input untuk tags -->
             <div class="mb-4">
                 <label for="tags" class="block text-gray-700 font-bold mb-2">Tags:</label>
-                <input type="text" name="tags" id="tags" value="{{ implode(',', $item->tags->pluck('name')->toArray()) }}"
+                <input type="text" name="tags" id="tags" value="{{ $item['tags'] }}"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder="Masukkan tags, pisahkan dengan koma">
             </div>

@@ -13,20 +13,20 @@
                 Category</a>
         </div>
         <h1 class="text-3xl font-bold mb-4">Edit Category</h1>
-        <form action="/categories/{{ $category->id }}" method="POST">
+        <form action="/categories/{{ $category['id'] }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name</label>
                 <input type="text" name="name" id="name" oninput="generateSlug()"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value="{{ old('name', $category->name ?? '') }}">
+                    value="{{ old('name', $category['name'] ?? '') }}">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="slug">Slug</label>
                 <input type="text" name="slug" id="slug"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value="{{ old('slug', $category->slug ?? '') }}">
+                    value="{{ old('slug', $category['slug'] ?? '') }}">
             </div>
             <div class="flex items-center justify-between">
                 <button type="submit"

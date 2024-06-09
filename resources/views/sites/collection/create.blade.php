@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title>Create Collection</title>
@@ -36,9 +36,9 @@
                 <select name="user_id" id="user_id"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     <option value="">Select User</option>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->username }}</option>
-                    @endforeach
+                    [@foreach ($users as $user)]
+                        <option value="{{ $user['id'] }}">{{ $user['username'] }}</option>
+                    [@endforeach]
                 </select>
             </div>
 
@@ -48,9 +48,9 @@
                 <select name="category_id" id="category_id"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     <option value="">Select Category</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
+                    [@foreach ($categories as $category)]
+                        <option value="{{ $category['id'] }}">{{ $category['name'] }}</option>
+                    [@endforeach]
                 </select>
             </div>
 

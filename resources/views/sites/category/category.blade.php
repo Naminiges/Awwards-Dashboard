@@ -64,7 +64,7 @@
                                 class="text-yellow-500 hover:text-yellow-700 mr-2">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="/categories/{{ $category['id'] }}" method="POST" class="inline-block">
+                            <form action="/categories/{{ $category['id'] }}" method="POST" class="inline-block" onsubmit="return confirmDelete()" id="delete-user-form">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-500 hover:text-red-700">
@@ -85,5 +85,9 @@
         $('#myTable').DataTable();
     });
 </script>
-
+<script>
+    function confirmDelete() {
+        return confirm('Are you sure you want to delete this category?');
+    }
+</script>
 </html>

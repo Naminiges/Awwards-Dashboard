@@ -65,7 +65,7 @@
                                 <i class="fas fa-edit"></i>
                             </a>
                             <form action="{{ route('users.destroy', $user['id']) }}" method="POST"
-                                class="inline-block">
+                                class="inline-block" onsubmit="return confirmDelete()" id="delete-user-form">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-500 hover:text-red-700">
@@ -86,5 +86,9 @@
         $('#myTable').DataTable();
     });
 </script>
-
+<script>
+    function confirmDelete() {
+        return confirm('Are you sure you want to delete this user?');
+    }
+</script>
 </html>

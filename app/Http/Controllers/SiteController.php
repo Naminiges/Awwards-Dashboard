@@ -32,10 +32,22 @@ class SiteController extends Controller
                 $collections[] = $row;
             }
         }
+
+        // Fetch categories from the database
+        $categoryQuery = "SELECT * FROM category";
+        $categoryResult = $conn->query($categoryQuery);
+        $categories = [];
+        if ($categoryResult->num_rows > 0) {
+            while ($row = $categoryResult->fetch_assoc()) {
+                $categories[] = $row;
+            }
+        }
+
         $conn->close();
 
-        return view('sites.collection.collection', compact('collections'));
+        return view('sites.collection.collection', compact('collections', 'categories'));
     }
+
 
     public function create()
     {

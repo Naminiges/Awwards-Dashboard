@@ -17,6 +17,18 @@
                 New Item</a>
         </div>
         <h1 class="text-3xl font-bold mb-8">Items</h1>
+
+        <!-- Add Category Dropdown -->
+        <div class="mb-4">
+            <label for="category" class="block text-gray-700 text-sm font-bold mb-2">Filter by Collection:</label>
+            <select id="category" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="">All Collection</option>
+                @foreach ($collections as $collection)
+                    <option value="{{ $collection['id'] }}">{{ $collection['name'] }}</option>
+                @endforeach
+            </select>
+        </div>
+
         @if (session('success'))
             <div id="alert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
                 role="alert">
@@ -56,6 +68,7 @@
                     <th class="px-4 py-2">User Design Name</th>
                     <th class="px-4 py-2">Tags</th>
                     <th class="px-4 py-2">Actions</th>
+                    <th class="px-4 py-2" style="display: none;">Collection ID</th> <!-- Hidden Collection ID column -->
                 </tr>
             </thead>
             <tbody>
@@ -91,7 +104,7 @@
                                 class="text-yellow-500 hover:text-yellow-700 mr-2">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="/items/{{ $item['id'] }}" method="POST" class="inline-block">
+                            <form action="/items/{{ $item['id'] }}" method="POST" class="inline-block" onsubmit="return confirmDelete()" id="delete-user-form">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-500 hover:text-red-700">
@@ -99,6 +112,7 @@
                                 </button>
                             </form>
                         </td>
+                        <td class="border px-4 py-2" style="display: none;">{{ $item['collection_id'] }}</td> <!-- Hidden Collection ID column value -->
                     </tr>
                 @endforeach
             </tbody>
@@ -110,8 +124,25 @@
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script>
     $(document).ready(function() {
-        $('#myTable').DataTable();
-    });
-</script>
+        var table = $('#myTable').DataTable({
+            columnDefs: [
+                {
+                    targets: [9], // Target the hidden collection ID column
+                    visible: false,
+                    searchable: true
+                }
+            ]
+        });
 
+        // Filter by category
+        $('#category').on('change', function() {
+            var category = $(this).val();
+            table.column(9).search(category).draw(); // Search in the hidden collection ID column
+        });
+    });
+
+    function confirmDelete() {
+        return confirm('Are you sure you want to delete this item?');
+    }
+</script>
 </html>

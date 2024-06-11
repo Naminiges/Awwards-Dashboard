@@ -25,7 +25,7 @@ class ItemController extends Controller
     public function index()
     {
         $conn = $this->getConnection();
-        $query = "SELECT item.*, collection.name AS collection_name, user.username AS user_name, GROUP_CONCAT(tag.name) AS tags
+        $query = "SELECT item.*, collection.name AS collection_name, collection.id AS collection_id, user.username AS user_name, GROUP_CONCAT(tag.name) AS tags
         FROM item
         LEFT JOIN collection ON item.collection_id = collection.id
         LEFT JOIN user ON item.name_id = user.id
@@ -40,10 +40,23 @@ class ItemController extends Controller
                 $items[] = $row;
             }
         }
+
+        // Fetch collections from the database
+        $collectionQuery = "SELECT * FROM collection";
+        $collectionResult = $conn->query($collectionQuery);
+        $collections = [];
+        if ($collectionResult->num_rows > 0) {
+            while ($row = $collectionResult->fetch_assoc()) {
+                $collections[] = $row;
+            }
+        }
+
         $conn->close();
 
-        return view('sites.item.item', compact('items'));
+        return view('sites.item.item', compact('items', 'collections'));
     }
+
+
 
     public function create()
     {
@@ -77,7 +90,7 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $conn = $this->getConnection();
-    
+
         // Validate request
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
@@ -87,18 +100,18 @@ class ItemController extends Controller
             'name_id' => 'nullable|string|max:255',
             'tags' => 'nullable|string', // Add validation for tags
         ]);
-    
+
         $title = $conn->real_escape_string($request->title);
         $collection_id = $conn->real_escape_string($request->collection_id);
         $type = $conn->real_escape_string($request->type);
         $preview_link = $conn->real_escape_string($request->preview_link);
         $name_id = $conn->real_escape_string($request->name_id);
         $created_at = $conn->real_escape_string(now());
-    
+
         // Insert into the items table using raw SQL
         $query = "INSERT INTO item (title, collection_id, type, preview_link, name_id, created_at) 
                   VALUES ('$title', '$collection_id', '$type', '$preview_link', '$name_id', '$created_at')";
-    
+
         if ($conn->query($query) === TRUE) {
             $itemId = $conn->insert_id;
             // Insert tags
@@ -120,7 +133,7 @@ class ItemController extends Controller
             return redirect('/items/create')->with('error', 'Error creating item: ' . $conn->error);
         }
     }
-    
+
 
     public function edit($id)
     {
